@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            background-color: red;
+            color: black;
+            text-align: center;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          background-color: black;
+        }
+        li {
+          cursor: pointer;
+          margin: 4px 0;
+          width: fit-content
+        }
+        li:hover {
+          color: darkred;
+        }
+        #racesList {
+          color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>D&D 5e Races</h1>
+        <ul id="racesList"></ul>
+    </div>
+    <script>
+        fetch("https://www.dnd5eapi.co/api/2014/races")
+            .then((response) => response.json())
+            .then((data) => {
+                const list = document.getElementById("racesList");
+
+                data.results.forEach((race) => {
+                    const li = document.createElement("li");
+                    li.textContent = race.name;
+                    
+                    li.onclick = () => loadRace(race.index);
+                    list.appendChild(li);
+                });
+            });
+
+        function loadRace(index){
+            fetch(`https://www.dnd5eapi.co/api/2014/races/${index}`)
+                .then((response) => response.json())
+                .then((race) => {
+                    alert(
+                        `Name: ${race.name}\n`
+                    );
+                });
+        }
+    </script>
+</body>
+</html>
